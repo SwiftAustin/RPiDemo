@@ -5,7 +5,7 @@ import Glibc
 
 // NOTE: For the button to work at all, you have to 
 //  run `wiringPi/gpio/gpio mode 26 up` first.
-//  Still trying to figure out the Swift equivalent
+//  OR put a pull-up resistor between Hot and PIN 12
 
 let gpioMgr = SwiftyGPIO.GPIOs(for:.RaspberryPi2)
 //print ("got gpioMgr \(gpioMgr)")
@@ -16,11 +16,8 @@ led.direction = .OUT
 guard let button = gpioMgr[.P12] else { print("Could not access pin12!");exit(2); }
 //print ("got pin 12");
 button.direction = .IN
-button.value=1
-button.activeLow=false
+button.value=0
 //print ("set pin 12 to input mode");
-// didn't help //
-print ("pin 12 activeLow mode is \(button.activeLow)");
 
 button.onChange { button in
 	print(button.value) 
