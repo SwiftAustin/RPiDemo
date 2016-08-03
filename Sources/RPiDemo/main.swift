@@ -1,6 +1,9 @@
 
 import SwiftyGPIO
+import Foundation
 import Glibc
+
+var previousButtonValue=2
 
 
 // NOTE: For the button to work at all, you have to 
@@ -20,13 +23,13 @@ button.value=0
 //print ("set pin 12 to input mode");
 
 button.onChange { button in
-	print(button.value) 
+	if (button.value != previousButtonValue) {
+		previousButtonValue=button.value
+		//print(button.value) 
+		led.value=button.value == 0 ? 1 : 0
+	}
 }
 
-for i in 0..<10000 {
-	//print ("about to toggle pin value")
-	led.value = i % 2
-	//print ("about to sleep for a quarter sec")
-	usleep(250*1000)
-	//print ("button is \(button.value))")
-} 
+_ = Timer.scheduledTimer(withTimeInterval:50000, repeats: false) { timer in
+}
+_ = RunLoop.current().run(mode:.defaultRunLoopMode, before:Date(timeIntervalSinceNow: 100))
